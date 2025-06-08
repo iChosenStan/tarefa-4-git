@@ -1,0 +1,33 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # O pipeline será executado quando houver push na branch 'main'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Verify index.html existence # Etapa de verificação
+      run: |
+        if [ ! -f public/index.html ]; then
+          echo "Erro: O arquivo public/index.html não foi encontrado. O pipeline falhará."
+          exit 1
+        fi
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './public' # A pasta a ser publicada no GitHub Pages
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
