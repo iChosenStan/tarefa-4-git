@@ -5,6 +5,11 @@ on:
     branches:
       - main # O pipeline será executado quando houver push na branch 'main'
 
+permissions:
+  contents: read # Permissão padrão para checkout
+  pages: write   # Permissão para implantar no GitHub Pages
+  id-token: write # Permissão para obter o ID Token necessário para ações de deploy
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
